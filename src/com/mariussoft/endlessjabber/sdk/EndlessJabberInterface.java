@@ -22,12 +22,17 @@ public class EndlessJabberInterface {
 	}
 
 	/** Opens up GooglePlay and redirects it to the EndlessJabber app */
-	public static void OpenGooglePlayLink(Context ctx) {
+	public static void OpenGooglePlayLink(Context ctx, String referralCode) {
+
+		SharedPreferences.Editor editor = ctx.getSharedPreferences("EndlessJabberSDK", Context.MODE_PRIVATE).edit();
+		editor.putString("Referral", referralCode);
+		editor.commit();
+
 		final String appPackageName = "com.mariussoft.endlessjabber";
 		try {
-			ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+			ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName + "&referrer=utm_source%3D" + referralCode)));
 		} catch (android.content.ActivityNotFoundException anfe) {
-			ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+			ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName + "&referrer=utm_source%3D" + referralCode)));
 		}
 	}
 
@@ -68,23 +73,6 @@ public class EndlessJabberInterface {
 
 		SendInfoToEndlessJabber(context);
 	}
-	
-	/**
-	 * Enables integration by specifying which class to call
-	 * 
-	 * @param context
-	 *            The context to use
-	 * @param referralCode
-	 *            The referral code to pass to Yappy
-	 */
-	public static void SetReferral(Context context, String referralCode)
-	{
-		SharedPreferences.Editor editor = context.getSharedPreferences("EndlessJabberSDK", Context.MODE_PRIVATE).edit();
-		editor.putString("Referral", referralCode);
-		editor.commit();
-		
-		SendInfoToEndlessJabber(context);
-	}
 
 	/** Disables integration */
 	@SuppressWarnings("rawtypes")
@@ -110,9 +98,9 @@ public class EndlessJabberInterface {
 		i.setAction(EndlessJabber_INTENT);
 		i.putExtra("Action", "UpdateInfo");
 		i.putExtra("PackageName", context.getPackageName());
-		i.putExtra("Enabled", prefs.contains("InterfaceClass"));		
+		i.putExtra("Enabled", prefs.contains("InterfaceClass"));
 		i.putExtra("Referral", prefs.getString("Referral", ""));
-		
+
 		if (prefs.contains("InterfaceClass")) {
 			i.putExtra("SendSMS", prefs.getBoolean("SendSMS", false));
 			i.putExtra("SendMMS", prefs.getBoolean("SendMMS", false));
