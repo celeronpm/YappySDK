@@ -68,6 +68,23 @@ public class EndlessJabberInterface {
 
 		SendInfoToEndlessJabber(context);
 	}
+	
+	/**
+	 * Enables integration by specifying which class to call
+	 * 
+	 * @param context
+	 *            The context to use
+	 * @param referralCode
+	 *            The referral code to pass to Yappy
+	 */
+	public static void SetReferral(Context context, String referralCode)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences("EndlessJabberSDK", Context.MODE_PRIVATE).edit();
+		editor.putString("Referral", referralCode);
+		editor.commit();
+		
+		SendInfoToEndlessJabber(context);
+	}
 
 	/** Disables integration */
 	@SuppressWarnings("rawtypes")
@@ -93,8 +110,9 @@ public class EndlessJabberInterface {
 		i.setAction(EndlessJabber_INTENT);
 		i.putExtra("Action", "UpdateInfo");
 		i.putExtra("PackageName", context.getPackageName());
-		i.putExtra("Enabled", prefs.contains("InterfaceClass"));
-
+		i.putExtra("Enabled", prefs.contains("InterfaceClass"));		
+		i.putExtra("Referral", prefs.getString("Referral", ""));
+		
 		if (prefs.contains("InterfaceClass")) {
 			i.putExtra("SendSMS", prefs.getBoolean("SendSMS", false));
 			i.putExtra("SendMMS", prefs.getBoolean("SendMMS", false));
