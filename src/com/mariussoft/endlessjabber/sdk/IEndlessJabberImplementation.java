@@ -26,6 +26,20 @@ public interface IEndlessJabberImplementation {
 	void DeleteThread(Context context,int threadID);
 	
 	/**
+	 * Delete the message with the given messageID from the SMS repository
+	 * @param context	The context to utilize
+	 * @param threadID	The ID of the message in the SMS repository to delete
+	 */
+	void DeleteSMSMessage(Context context,int messageID);
+	
+	/**
+	 * Delete the message with the given messageID from the MMS repository
+	 * @param context	The context to utilize
+	 * @param threadID	The ID of the message in the MMS repository to delete
+	 */
+	void DeleteMMSMessage(Context context,int messageID);
+	
+	/**
 	 * Method gets called when EndlessJabber is requested to send an MMS message via the web app
 	 * @param context		The context to utilize
 	 * @param recipients	List of recipients to send message to

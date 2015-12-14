@@ -41,6 +41,18 @@ public class EndlessJabberWakefulService extends IntentService {
 				instanceOfMyClass.DeleteThread(context, conversationID);
 				break;
 			}
+			case "DeleteSMSMessage": {
+
+				int conversationID = extras.getInt("MessageID");
+				instanceOfMyClass.DeleteSMSMessage(context, conversationID);
+				break;
+			}
+			case "DeleteMMSMessage": {
+
+				int conversationID = extras.getInt("MessageID");
+				instanceOfMyClass.DeleteMMSMessage(context, conversationID);
+				break;
+			}
 			case "SendMMS": {
 
 				boolean save = extras.getBoolean("Save");

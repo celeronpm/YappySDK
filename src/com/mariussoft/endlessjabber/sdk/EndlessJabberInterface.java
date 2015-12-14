@@ -52,14 +52,17 @@ public class EndlessJabberInterface {
 	 *            The concrete implementation to call on events
 	 * @param sendSMS
 	 *            If true, your app will be responsible for sending SMS messages
-	 *            as well as presisting them to the SMS repository
+	 *            as well as persisting them to the SMS repository
 	 * @param sendMMS
 	 *            If true, your app will be responsible for sending & persisting
+	 *            MMS messages to the MMS repository
+	 * @param dontDeleteMessages
+	 *            If true, your app will be responsible for deleting conversations and messages when signalled
 	 *            MMS messages to the MMS repository
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public static void EnableIntegration(Context context, Class concreteImplementation, boolean sendSMS, boolean sendMMS) throws Exception {
+	public static void EnableIntegration(Context context, Class concreteImplementation, boolean sendSMS, boolean sendMMS, boolean dontDeleteMessages) throws Exception {
 		Class<?> clazz = concreteImplementation;
 		if (!IEndlessJabberImplementation.class.isAssignableFrom(clazz)) {
 			throw new Exception("Class must implement IEndlessJabberImplementation");
@@ -69,6 +72,7 @@ public class EndlessJabberInterface {
 		editor.putString("InterfaceClass", concreteImplementation.getName());
 		editor.putBoolean("SendSMS", sendSMS);
 		editor.putBoolean("SendMMS", sendMMS);
+		editor.putBoolean("DontDelete", dontDeleteMessages);
 		editor.commit();
 
 		SendInfoToEndlessJabber(context);
