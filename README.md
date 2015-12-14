@@ -16,6 +16,7 @@ In android devices running 4.4 and up, the app cannot touch the SMS repository, 
   - Marking messages as read (when a user reads a message via the website, the phone should mark the messages as read so the SMS   Notification/LED turn off)
   - When sending MMS messages, the MMS can not be saved to the local repository, so the user will never see the MMS message they sent
   - Deleting a conversation when it is deleted online
+  - Deleting individual messages (SMS/MMS) when they are deleted online
 
 This library allows Yappy to integrate with apps running on the user's system which have access to the default repository (are set as the default SMS system app). Yappy will then proxy commands for things such as marking messages as read to the app so it may perform the action on the SMS repository.
 
@@ -75,6 +76,24 @@ public class MySampleImplementation implements IEndlessJabberImplementation {
 	}
 
 	/**
+	 * Delete the message with the given messageID from the SMS repository
+	 * @param context	The context to utilize
+	 * @param threadID	The ID of the message in the SMS repository to delete
+	 */
+	public void DeleteSMSMessage(Context context,int messageID)	{
+	
+	}
+	
+	/**
+	 * Delete the message with the given messageID from the MMS repository
+	 * @param context	The context to utilize
+	 * @param threadID	The ID of the message in the MMS repository to delete
+	 */
+	void DeleteMMSMessage(Context context,int messageID){
+	
+	}
+	
+	/**
 	 * Method gets called when EndlessJabber is requested to send an MMS message via the web app
 	 * @param context		The context to utilize
 	 * @param recipients	List of recipients to send message to
@@ -110,7 +129,7 @@ Finally, you must tell the SDK that your app is ready to integrate. This should 
 ```java
 //IMPORTANT: This should be called once to finalize integration (can be done at app startup or when user sets option to enable integration)
 			try {
-				EndlessJabberInterface.EnableIntegration(getContext(), MySampleImplementation.class, true, true);
+				EndlessJabberInterface.EnableIntegration(getContext(), MySampleImplementation.class, true, true, false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
