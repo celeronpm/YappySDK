@@ -108,6 +108,7 @@ public class EndlessJabberInterface {
 		if (prefs.contains("InterfaceClass")) {
 			i.putExtra("SendSMS", prefs.getBoolean("SendSMS", false));
 			i.putExtra("SendMMS", prefs.getBoolean("SendMMS", false));
+ 			i.putExtra("DontDelete", prefs.getBoolean("DontDelete", false));
 		}
 
 		context.sendBroadcast(i);
