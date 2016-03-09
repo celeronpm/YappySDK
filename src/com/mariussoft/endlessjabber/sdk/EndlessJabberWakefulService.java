@@ -16,7 +16,7 @@ public class EndlessJabberWakefulService extends IntentService {
 		Context context = getApplicationContext();
 
 		// Get the class to call
-		String implemenationClass = context.getSharedPreferences("EndlessJabberSDK", Context.MODE_PRIVATE).getString("InterfaceClass", null);
+		String implemenationClass = context.getSharedPreferences(EndlessJabberInterface.Pref_Store, Context.MODE_PRIVATE).getString(EndlessJabberInterface.Pref_InterfaceClass, null);
 
 		if (implemenationClass == null) {
 			return;
@@ -27,7 +27,7 @@ public class EndlessJabberWakefulService extends IntentService {
 			instanceOfMyClass = (IEndlessJabberImplementation) Class.forName(implemenationClass).newInstance();
 
 			Bundle extras = intent.getExtras();
-
+			
 			switch (extras.getString("Action")) {
 			case "UpdateRead": {
 				long time = extras.getLong("Time");
@@ -63,6 +63,7 @@ public class EndlessJabberWakefulService extends IntentService {
 
 				for (int i = 0; i < parts.length; i++) {
 					parts[i] = (MMSPart) extras.getParcelableArray("Parts")[i];
+					parts[i].ParseURI(context);
 				}
 
 				instanceOfMyClass.SendMMS(context, Recipients, parts, extras.getString("Subject"), save, send);
