@@ -144,7 +144,7 @@ Finally, you must tell the SDK that your app is ready to integrate. This should 
 	 *            If true, your app will be responsible for deleting conversations and messages when signaled
 	 * @param supportsMarkAsReadSignal
 	 * 			 Set this to true to prevent Yappy from automatically tracking when messages have been read. Whenever a conversation thread has been read,
-	 *           you MUST call the appropriate method to notify Yappy of a thread read
+	 *           you MUST call the appropriate method to notify Yappy of a thread read (EndlessJabberInterface.MarkAsRead)
 	 * @throws Exception
 	 */
 	public static void EnableIntegration(Context context, Class concreteImplementation, boolean sendSMS, boolean sendMMS, boolean dontDeleteMessages, boolean supportsMarkAsReadSignal)
