@@ -127,9 +127,33 @@ public class MySampleImplementation implements IEndlessJabberImplementation {
 Finally, you must tell the SDK that your app is ready to integrate. This should be called once either when your app is first installed, after a user checks a settings to enable integrate, and every time after integration options change.
 
 ```java
+	/**
+	 * Enables integration by specifying which class to call
+	 * 
+	 * @param context
+	 *            The context to use
+	 * @param concreteImplementation
+	 *            The concrete implementation to call on events
+	 * @param sendSMS
+	 *            If true, your app will be responsible for sending SMS messages
+	 *            as well as persisting them to the SMS repository
+	 * @param sendMMS
+	 *            If true, your app will be responsible for sending & persisting
+	 *            MMS messages to the MMS repository
+	 * @param dontDeleteMessages
+	 *            If true, your app will be responsible for deleting conversations and messages when signaled
+	 * @param supportsMarkAsReadSignal
+	 * 			 Set this to true to prevent Yappy from automatically tracking when messages have been read. Whenever a conversation thread has been read,
+	 *           you MUST call the appropriate method to notify Yappy of a thread read
+	 * @throws Exception
+	 */
+	public static void EnableIntegration(Context context, Class concreteImplementation, boolean sendSMS, boolean sendMMS, boolean dontDeleteMessages, boolean supportsMarkAsReadSignal)
+```
+	
+```java
 //IMPORTANT: This should be called once to finalize integration (can be done at app startup or when user sets option to enable integration)
 			try {
-				EndlessJabberInterface.EnableIntegration(getContext(), MySampleImplementation.class, true, true, false);
+				EndlessJabberInterface.EnableIntegration(getContext(), MySampleImplementation.class, true, true, false, false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -141,12 +165,12 @@ Finally, you must tell the SDK that your app is ready to integrate. This should 
 Final Notes
 ----
 
-To test the SDK integration, make sure Yappy is installed, start your app, then go to the settings tab in Yappy. Your apps name should be displayed as the SMS integration app if everything works. Any actions your perform on https://www.yappy.im/web/ which require the SDK integration will be called and proxied to your app.
+To test the SDK integration, make sure Yappy is installed, start your app, then go to the settings tab in the Yappy app on your phone. Your app's name should be displayed as the 'SMS integration app' section if everything works. Any actions your perform on https://www.yappy.im/web/ which require the SDK integration will be called and proxied to your app.
 
 
 ## License
 
-    Copyright 2014 Marius Dornean (MariusSoft LLC)
+    Copyright 2016 Marius Dornean (MariusSoft LLC)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
